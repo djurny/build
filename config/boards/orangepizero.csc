@@ -8,10 +8,21 @@ MODULES_BLACKLIST="sunxi_cedrus"
 DEFAULT_OVERLAYS="usbhost2 usbhost3 tve"
 DEFAULT_CONSOLE="both"
 HAS_VIDEO_OUTPUT="yes"
-SERIALCON="ttyS0,ttyGS0"
 KERNEL_TARGET="current,edge,legacy"
 KERNEL_TEST_TARGET="current"
 # CRUSTCONFIG="orangepi_zero_defconfig" # Crust is failing https://github.com/armbian/build/issues/8197
+
+DISPLAYCON=''
+SERIALCON="ttyS0:115200,ttyGS0"
+
+BOOTSCRIPT='boot-generic.cmd.template:boot.cmd'
+BOOTSCRIPT_TEMPLATE__ALIGN_TO='0x00001000'
+BOOTSCRIPT_TEMPLATE__BOARD_FAMILY="${BOARDFAMILY:-sun8i}"
+BOOTSCRIPT_TEMPLATE__BOARD_VENDOR='allwinner'
+BOOTSCRIPT_TEMPLATE__LOAD_ADDR='0x45000000'
+BOOTSCRIPT_TEMPLATE__ROOTFS_TYPE="${ROOTFS_TYPE:-ext4}"
+BOOTSCRIPT_TEMPLATE__DISPLAY_CONSOLE='' # leave empty, use DISPLAYCON
+BOOTSCRIPT_TEMPLATE__SERIAL_CONSOLE='' # leave empty, use SERIALCON
 
 function orange_pi_zero_enable_xradio_workarounds() {
 	/usr/bin/systemctl enable xradio_unload.service
